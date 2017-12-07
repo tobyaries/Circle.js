@@ -1,2 +1,2 @@
-# CircleJS
+# CircleUI
 a vue component library
