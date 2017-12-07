@@ -1,2 +1,2 @@
 # CircleUI
-a vue component library
+a vue UI components library
