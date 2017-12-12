@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
-      <li><router-link to="/countdown">Go to Foo</router-link></li>
+      <li><router-link to="/countdown">Go to countdown</router-link></li>
     </ul>
   </div>
 </template>
@@ -13,7 +13,7 @@ export default {
   name: 'Catalog',
   data () {
     return {
-      msg: 'CircleUI'
+      msg: 'MoonUI'
     }
   }
 }

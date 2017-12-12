@@ -9,7 +9,7 @@ module.exports = {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/circleui/',
+    assetsPublicPath: '/moonui/',
     proxyTable: {},
 
     // Various Dev Server settings

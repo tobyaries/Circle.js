@@ -1,6 +1,6 @@
 <template>
   <div class="count-down">
-    <circle-count-down period=60></circle-count-down>
+    <moon-count-down period=60></moon-count-down>
   </div>
 </template>
 

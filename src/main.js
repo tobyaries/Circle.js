@@ -3,8 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import CountDown from './components'
+import CountDown from 'moon-ui'
 
+// console.log(CountDown)
 Vue.config.productionTip = false
 Vue.use(CountDown)
 
