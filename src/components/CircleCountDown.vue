@@ -1,5 +1,5 @@
 <template>
-  <div class="count-down">
+  <div class="circle-count-down">
       <input type="button" :value="msg" @click="time()" :disabled='forbidden'>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
   props: ['period', 'callback'],
   methods: {
     time () {
-      if (this.runFn) {
+      if (this.runFn && this.callback) {
         this.callback()
         this.runFn = false
       }
@@ -45,7 +45,7 @@ export default {
 <style scoped lang="scss">
   .count-down {
     input[type='button'] {
-      width: 5rem;
+      width: 6rem;
       font-size: 10px;
       padding: 0;
       border-style: none;

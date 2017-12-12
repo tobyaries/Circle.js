@@ -1,2 +1,2 @@
-# CircleUI
-a vue UI components library
+# Vue-BioTemplate
+a vue bio template library
