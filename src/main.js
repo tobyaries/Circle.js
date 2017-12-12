@@ -5,9 +5,9 @@ import App from './App'
 import router from './router'
 import { CountDown, InfiniteScroll } from 'moon-ui'
 
-console.log(InfiniteScroll)
 Vue.config.productionTip = false
 Vue.use(CountDown)
+Vue.use(InfiniteScroll)
 
 new Vue({
   el: '#app',
