@@ -1,9 +1,10 @@
 <template>
   <div class="catalog">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
+    <h2>UI Links</h2>
     <ul>
       <li><router-link to="/countdown">Go to countdown</router-link></li>
+      <li><router-link to="/infinitescroll">Go to infinite-scroll</router-link></li>
     </ul>
   </div>
 </template>

@@ -3,9 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import CountDown from 'moon-ui'
+import { CountDown, InfiniteScroll } from 'moon-ui'
 
-// console.log(CountDown)
+console.log(InfiniteScroll)
 Vue.config.productionTip = false
 Vue.use(CountDown)
 
