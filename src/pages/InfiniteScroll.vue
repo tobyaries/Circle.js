@@ -1,8 +1,8 @@
 <template>
   <div class="infinite-scroll">
     <moon-infinite-scroll :triggerDistance='100' :scrollDisabled='loading' :scrollFn="loadMore">
-      <li v-for="(item, index) in 30" :key=index>
-        {{index}}
+      <li v-for="(item, index) in songList" :key=index>
+        {{item.name}}
       </li>
     </moon-infinite-scroll>
     <div class="no-more" v-show="!noContent && noMore">已全部加载完成～</div>
@@ -14,39 +14,45 @@ import '@/components/CircleCountDown'
 export default {
   data () {
     return {
-      list: [],
+      songList: [],
       loading: false,
-      size: 10,
-      page: 0,
+      size: 50,
+      page: 1,
       noMore: false,
-      noContent: false
+      noContent: false,
+      url: 'https://music-api-jwzcyzizya.now.sh/api/search/song/netease',
+      key: encodeURIComponent('周杰伦')
+
     }
   },
   methods: {
     loadMore () {
       if (this.noMore) return
       this.loading = true
-      utils.ajax('POST')('/writeoff-web-api/vouchers/settlement/bill/monthlyList', {size: this.size, page: ++this.page})
+      this.$ajax.get(`${this.url}?key=${this.key}&limit=${this.size}&page=${++this.page}`)
       .then(res => {
-        if (res.content.length === 0) {
+        if (res.data.songList.length === 0) {
           this.noMore = true
         } else {
-          this.settleList.push(...res.content)
+          this.songList.push(...res.data.songList)
           this.loading = false
         }
       })
     },
     getData () {
-      utils.ajax('POST')('/writeoff-web-api/vouchers/settlement/bill/monthlyList', {size: this.size, page: this.page})
+      this.$ajax.get(`${this.url}?key=${this.key}&limit=${this.size}&page=${this.page}`)
       .then(res => {
-        if (res.content.length === 0) {
+        if (res.data.songList.length === 0) {
           this.noContent = true
-        } else {
-          this.settleList = res.content
+        } else {  
+          this.songList = res.data.songList
           this.noContent = false
         }
       })
     }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>
