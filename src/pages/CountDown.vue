@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import '@/components/CircleCountDown'
 export default {
   
 }

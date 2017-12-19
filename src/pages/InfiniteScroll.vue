@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import '@/components/CircleCountDown'
 export default {
   data () {
     return {
@@ -56,4 +55,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.infinite-scroll {
+  background-color: #fff;
+}
+</style>
 

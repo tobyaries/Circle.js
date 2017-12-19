@@ -1,9 +1,9 @@
-import CircleCountDown from './CircleCountDown.vue'
+import MoonPicker from './MoonPicker.vue'
 
-const CountDown = {
+const Picker = {
   install: Vue => {
-    Vue.component('circle-count-down', CircleCountDown)
+    Vue.component('moon-picker', MoonPicker)
   }
 }
  
-export default CountDown
+export default Picker

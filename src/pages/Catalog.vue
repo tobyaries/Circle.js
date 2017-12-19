@@ -5,6 +5,7 @@
     <ul>
       <li><router-link to="/countdown">Go to moon-count-down</router-link></li>
       <li><router-link to="/infinitescroll">Go to moon-infinite-scroll</router-link></li>
+      <li><router-link to="/picker">Go to moon-picker</router-link></li>
     </ul>
   </div>
 </template>
