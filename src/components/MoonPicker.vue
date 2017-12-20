@@ -1,7 +1,7 @@
 <template>
   <div class="moon-picker">
     <div class="picker-box">
-      <div class="picker-wraper">
+      <div class="picker-wraper" ref="pickerWraper">
         <div class="picker-item" v-for="(slot, index) in slots" :key="index">{{slot}}</div>
       </div>
     </div>
@@ -11,7 +11,6 @@
 export default {
   data () { 
     return {
-      $pickerWraper: '',
       pageYStart: 0,
       translateY: 0,
       itemHeigt: 36,
@@ -21,11 +20,10 @@ export default {
   props: [],
   methods: {
     initEvent() {
-      this.$pickerWraper = document.querySelector('.picker-wraper');
-      this.$pickerWraper.style.transform = "translate3d(0px, " + this.itemHeigt + "px, 0px)"
-      this.$pickerWraper.addEventListener('touchstart', this.pickerTouchStart);
-      this.$pickerWraper.addEventListener('touchmove', this.pickerTouchMove);
-      this.$pickerWraper.addEventListener('touchend', this.pickerTouchEnd);
+      this.$refs.pickerWraper.style.transform = "translate3d(0px, " + this.itemHeigt + "px, 0px)"
+      this.$refs.pickerWraper.addEventListener('touchstart', this.pickerTouchStart);
+      this.$refs.pickerWraper.addEventListener('touchmove', this.pickerTouchMove);
+      this.$refs.pickerWraper.addEventListener('touchend', this.pickerTouchEnd);
     },
     pickerTouchStart(event) {
       // record the drag init postion
@@ -33,21 +31,25 @@ export default {
     },
     pickerTouchMove(event) {
       event.stopPropagation();
-      let $pickerWraper = document.querySelector('.picker-wraper');
       //get drag distance
-      let pageYMove = event.touches[0].pageY - this.pageYStart + this.translateY;
-      if (pageYMove < 0 && Math.abs(pageYMove) > this.itemHeigt * (this.slots.length - 2)) {
-        pageYMove = -this.itemHeigt * (this.slots.length - 2);
+      let touchMove = event.touches[0].pageY - this.pageYStart;
+      let traslateY = touchMove + this.translateY;
+      if (traslateY < 0 && Math.abs(traslateY) > this.itemHeigt * (this.slots.length - 2)) {
+        traslateY = -this.itemHeigt * (this.slots.length - 2);
       }
-      if (pageYMove > 0 && pageYMove > this.itemHeigt) {
-        pageYMove = this.itemHeigt;
+      if (traslateY > 0 && traslateY > this.itemHeigt) {
+        traslateY = this.itemHeigt;
       }
       //drag the dom
-      this.$pickerWraper.style.transform = "translate3d(0px, " + pageYMove + "px, 0px)"
+      this.$refs.pickerWraper.style.transform = "translate3d(0px, " + traslateY + "px, 0px)"
     },
     pickerTouchEnd(event) {
       // record the last translate
-      this.translateY = +this.$pickerWraper.style.transform.replace(/[^0-9\-,]/g,'').split(',')[1];
+      this.translateY = +this.$refs.pickerWraper.style.transform.replace(/[^0-9\-,]/g,'').split(',')[1];
+      let scale = Math.floor(Math.abs(this.translateY)/this.itemHeigt);
+      scale = this.translateY > 0 ? scale : -scale;
+      this.translateY = scale*this.itemHeigt;
+      this.$refs.pickerWraper.style.transform = "translate3d(0px, " + scale*this.itemHeigt + "px, 0px)"
     }
   },
   mounted: function() {
