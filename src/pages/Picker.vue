@@ -1,6 +1,7 @@
 <template>
   <div class="picker">
-    <moon-picker :slots="slots" @change="change"></moon-picker>
+    <p>您选择的是： {{slots[slotIdx].text}}</p>
+    <moon-picker :slots="slots" :callback="callback" @change="change"></moon-picker>
   </div>
 </template>
 
@@ -8,7 +9,7 @@
 export default {
   data() {
     return {
-      index: 0,
+      slotIdx: 0,
       slots: [
         {
           text: '烟花易冷',
@@ -47,7 +48,11 @@ export default {
   },
   methods: {
     change(data) {
-      console.log(data, 888888)
+      this.slotIdx = data.slotIdx;
+      console.log(data.slotIdx)
+    },
+    callback() {
+      console.log('callback is called.')
     }
   }
 }
