@@ -14,6 +14,7 @@ export default {
       $pickerWraper: '',
       pageYStart: 0,
       translateY: 0,
+      itemHeigt: 36,
       slots: [1, 2, 3, 4, 5, 6, 7, 8]
     }
   },
@@ -21,24 +22,31 @@ export default {
   methods: {
     initEvent() {
       this.$pickerWraper = document.querySelector('.picker-wraper');
+      this.$pickerWraper.style.transform = "translate3d(0px, " + this.itemHeigt + "px, 0px)"
       this.$pickerWraper.addEventListener('touchstart', this.pickerTouchStart);
       this.$pickerWraper.addEventListener('touchmove', this.pickerTouchMove);
       this.$pickerWraper.addEventListener('touchend', this.pickerTouchEnd);
     },
     pickerTouchStart(event) {
-      // record the dtag init postion
+      // record the drag init postion
       this.pageYStart = event.touches[0].pageY;
-      console.log(event.touches[0].pageY, 111111111111111)
     },
     pickerTouchMove(event) {
       event.stopPropagation();
       let $pickerWraper = document.querySelector('.picker-wraper');
+      //get drag distance
       let pageYMove = event.touches[0].pageY - this.pageYStart + this.translateY;
+      if (pageYMove < 0 && Math.abs(pageYMove) > this.itemHeigt * (this.slots.length - 2)) {
+        pageYMove = -this.itemHeigt * (this.slots.length - 2);
+      }
+      if (pageYMove > 0 && pageYMove > this.itemHeigt) {
+        pageYMove = this.itemHeigt;
+      }
+      //drag the dom
       this.$pickerWraper.style.transform = "translate3d(0px, " + pageYMove + "px, 0px)"
-      console.log(event.touches[0].pageY, pageYMove, 222222222)
     },
     pickerTouchEnd(event) {
-      // this.pageYStart = event.touches[0].pageY
+      // record the last translate
       this.translateY = +this.$pickerWraper.style.transform.replace(/[^0-9\-,]/g,'').split(',')[1];
     }
   },
