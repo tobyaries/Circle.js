@@ -2,7 +2,7 @@
   <div class="moon-picker">
     <div class="picker-box">
       <div class="picker-wraper" ref="pickerWraper">
-        <div class="picker-item" v-for="(slot, index) in slots" :key="index">{{slot}}</div>
+        <div class="picker-item" v-for="(slot, index) in slots" :key="index">{{slot.text}}</div>
       </div>
     </div>
   </div>
@@ -13,11 +13,10 @@ export default {
     return {
       pageYStart: 0,
       translateY: 0,
-      itemHeigt: 36,
-      slots: [1, 2, 3, 4, 5, 6, 7, 8]
+      itemHeigt: 36
     }
   },
-  props: [],
+  props: ['slots', 'index'],
   methods: {
     initEvent() {
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + this.itemHeigt + "px, 0px)"
@@ -26,6 +25,7 @@ export default {
       this.$refs.pickerWraper.addEventListener('touchend', this.pickerTouchEnd);
     },
     pickerTouchStart(event) {
+      event.stopPropagation();
       // record the drag init postion
       this.pageYStart = event.touches[0].pageY;
     },
@@ -44,12 +44,15 @@ export default {
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + traslateY + "px, 0px)"
     },
     pickerTouchEnd(event) {
+      event.stopPropagation();
       // record the last translate
       this.translateY = +this.$refs.pickerWraper.style.transform.replace(/[^0-9\-,]/g,'').split(',')[1];
       let scale = Math.floor(Math.abs(this.translateY)/this.itemHeigt);
+      console.log(scale)
       scale = this.translateY > 0 ? scale : -scale;
       this.translateY = scale*this.itemHeigt;
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + scale*this.itemHeigt + "px, 0px)"
+      this.$emit('change', 123)
     }
   },
   mounted: function() {
