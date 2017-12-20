@@ -24,7 +24,6 @@ export default {
 <style> 
 html {
   height: 100%;
-  background-color: #eee;
 }
 </style>
 
@@ -32,6 +31,7 @@ html {
 h1, h2 {
   font-weight: normal;
   font-size: medium;
+  padding: 8px;
 }
 h1 {
   color: #51ABAB;

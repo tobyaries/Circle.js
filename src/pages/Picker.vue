@@ -1,6 +1,5 @@
 <template>
   <div class="picker">
-    123
     <moon-picker></moon-picker>
   </div>
 </template>
@@ -14,5 +13,6 @@ export default {
 <style>
 .picker {
   background-color: #fff;
+  padding-top: 200px;
 }
 </style>

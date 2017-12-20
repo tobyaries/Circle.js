@@ -56,9 +56,6 @@ export default {
 }
 </script>
 
-<style>
-.infinite-scroll {
-  background-color: #fff;
-}
+<style scoped>
 </style>
 

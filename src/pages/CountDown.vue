@@ -10,3 +10,10 @@ export default {
 }
 </script>
 
+<style>
+body {
+  padding: 8px;
+}
+</style>
+
+
