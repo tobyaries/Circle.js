@@ -15,13 +15,21 @@ export default {
       translateY: 0,
       itemHeigt: 36,
       slotIdx: 0,
-      beginIdx: 1
+      beginIdx: 0
     }
   },
-  props: ['slots', 'callback'],
+  props: ['slots', 'defaultIdx', 'callback'],
   methods: {
+    initDefaultIndx() {
+      if(this.defaultIdx >= 0 && this.defaultIdx <= this.slots.length - 1) {
+          this.beginIdx = this.defaultIdx;
+      }
+      this.slotIdx = this.beginIdx
+      this.$emit('change', {slotIdx: this.beginIdx});
+      this.translateY = this.itemHeigt - this.beginIdx * this.itemHeigt;
+      this.$refs.pickerWraper.style.transform = "translate3d(0px, " + this.translateY + "px, 0px)"
+    },
     initEvent() {
-      this.$refs.pickerWraper.style.transform = "translate3d(0px, " + (this.beginIdx * this.itemHeigt) + "px, 0px)"
       this.$refs.pickerWraper.addEventListener('touchstart', this.pickerTouchStart);
       this.$refs.pickerWraper.addEventListener('touchmove', this.pickerTouchMove);
       this.$refs.pickerWraper.addEventListener('touchend', this.pickerTouchEnd);
@@ -36,11 +44,14 @@ export default {
       //get drag distance
       let touchMove = event.touches[0].pageY - this.pageYStart;
       let traslateY = touchMove + this.translateY;
-      if (traslateY < 0 && Math.abs(traslateY) > this.itemHeigt * (this.slots.length - 1 - this.beginIdx)) {
-        traslateY = -this.itemHeigt * (this.slots.length - 1 - this.beginIdx);
+      //max positive and negative translate
+      let maxPositiveTranstalte = this.itemHeigt;
+      let maxNagativeTranstalte = -this.itemHeigt * (this.slots.length - 2);
+      if (traslateY < maxNagativeTranstalte) {
+        traslateY = maxNagativeTranstalte;
       }
-      if (traslateY > 0 && traslateY > this.itemHeigt) {
-        traslateY = this.itemHeigt;
+      if (traslateY > maxPositiveTranstalte) {
+        traslateY = maxPositiveTranstalte;
       }
       //drag the dom
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + traslateY + "px, 0px)"
@@ -53,18 +64,14 @@ export default {
       this.translateY = (this.translateY <= 0) ? (this.translateY - this.itemHeigt/2) : (this.translateY + this.itemHeigt/2);
       let scale = Math.floor(Math.abs(this.translateY)/this.itemHeigt);
       scale = this.translateY >= 0 ? scale : -scale;
-      this.translateY = scale*this.itemHeigt;
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + scale*this.itemHeigt + "px, 0px)"
-      //get the choosen index
-      this.slotIdx = this.beginIdx - scale;
-      //pop the choosen value and call fn
-      this.$emit('change', {
-        slotIdx: this.slotIdx,
-      });
+      this.slotIdx = 1- scale;
+      this.$emit('change', {slotIdx: this.slotIdx});
       this.callback();
     }
   },
   mounted: function() {
+    this.initDefaultIndx();
     this.initEvent();
   }
 }

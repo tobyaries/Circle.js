@@ -1,7 +1,7 @@
 <template>
   <div class="picker">
     <p>您选择的是： {{slots[slotIdx].text}}</p>
-    <moon-picker :slots="slots" :callback="callback" @change="change"></moon-picker>
+    <moon-picker :slots="slots" :defaultIdx="defaultIdx" :callback="callback" @change="change"></moon-picker>
   </div>
 </template>
 
@@ -10,6 +10,7 @@ export default {
   data() {
     return {
       slotIdx: 0,
+      defaultIdx: 3,
       slots: [
         {
           text: '烟花易冷',
