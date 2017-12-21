@@ -58,9 +58,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .picker {
   background-color: #fff;
-  padding-top: 200px;
+  padding-top: 10px;
+  p {
+    padding-left: 10px;
+  }
 }
 </style>

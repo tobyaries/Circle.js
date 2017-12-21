@@ -2,7 +2,7 @@
   <div class="moon-picker">
     <div class="picker-box">
       <div class="picker-wraper" ref="pickerWraper">
-        <div class="picker-item" :class="{ active: slot.chosen }" v-for="(slot, index) in slots" :key="index">{{slot.text}}</div>
+        <div class="picker-item" :class="{ active: index == slotIdx}" v-for="(slot, index) in slots" :key="index">{{slot.text}}</div>
       </div>
     </div>
   </div>
@@ -57,7 +57,6 @@ export default {
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + scale*this.itemHeigt + "px, 0px)"
       //get the choosen index
       this.slotIdx = this.beginIdx - scale;
-      this.slots[this.slotIdx].chosen = true;
       //pop the choosen value and call fn
       this.$emit('change', {
         slotIdx: this.slotIdx,
@@ -75,7 +74,7 @@ export default {
   .picker-box {
     background: #eee;
     position: relative;
-    // overflow: hidden;
+    overflow: hidden;
     &::before, &::after{
       content: '';
       height: 1px;
@@ -96,6 +95,9 @@ export default {
       .picker-item {
         line-height: 36px;
         text-align: center;
+        &.active {
+          color: #000;
+        }
       }
     }
   }
