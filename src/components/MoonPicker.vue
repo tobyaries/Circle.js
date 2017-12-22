@@ -15,7 +15,9 @@ export default {
       translateY: 0,
       itemHeigt: 36,
       slotIdx: 0,
-      beginIdx: 0
+      beginIdx: 0,
+      use3D: false,
+      preventFn: null
     }
   },
   props: ['slots', 'defaultIdx', 'callback'],
@@ -30,19 +32,29 @@ export default {
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + this.translateY + "px, 0px)"
     },
     initEvent() {
-      this.$refs.pickerWraper.addEventListener('touchstart', this.pickerTouchStart);
-      this.$refs.pickerWraper.addEventListener('touchmove', this.pickerTouchMove);
-      this.$refs.pickerWraper.addEventListener('touchend', this.pickerTouchEnd);
+      this.$refs.pickerWraper.addEventListener('touchstart', this.pickerTouchStart, false);
+      this.$refs.pickerWraper.addEventListener('touchmove', this.pickerTouchMove, false);
+      this.$refs.pickerWraper.addEventListener('touchend', this.pickerTouchEnd, false);
+      this.preventFn = function(e) {
+        e.preventDefault();
+      };
+      // document.addEventListener('touchmove', this.preventFn, true);
+      // setTimeout(() => {
+      //   document.removeEventListener('touchmove', this.preventFn, true);
+      // }, 2000);
     },
     pickerTouchStart(event) {
+      event.preventDefault();
       event.stopPropagation();
       // record the drag init postion
-      this.pageYStart = event.touches[0].pageY;
+      this.pageYStart = event.targetTouches[0].pageY;
     },
     pickerTouchMove(event) {
+      event.preventDefault();
       event.stopPropagation();
+      console.log(44444)
       //get drag distance
-      let touchMove = event.touches[0].pageY - this.pageYStart;
+      let touchMove = event.targetTouches[0].pageY - this.pageYStart;
       let traslateY = touchMove + this.translateY;
       //max positive and negative translate
       let maxPositiveTranstalte = this.itemHeigt;
@@ -57,8 +69,8 @@ export default {
       this.$refs.pickerWraper.style.transform = "translate3d(0px, " + traslateY + "px, 0px)"
     },
     pickerTouchEnd(event) {
-      event.stopPropagation();
       // record the last translate
+      
       let matrix  = this.$refs.pickerWraper.style.transform.replace(/[^0-9\-.,]/g, '').split(',');
       this.translateY = +matrix[1];
       this.translateY = (this.translateY <= 0) ? (this.translateY - this.itemHeigt/2) : (this.translateY + this.itemHeigt/2);
